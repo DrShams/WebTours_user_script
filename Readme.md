@@ -18,3 +18,5 @@
 > ```py user.py -rmall y -add 100```
 
 *файл аккаунта jojo не будет тронут ни в одной из операций*
+
+`ps Thanks Nikolay Batalin for support`
