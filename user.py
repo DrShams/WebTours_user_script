@@ -15,10 +15,24 @@ CSV_FILENAME = "dat"
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--create", type=int, help="Number of users profiles to create")
-    parser.add_argument("--remove", default="n", help="Remove all user profiles")
-    parser.add_argument("--clear", default="n", help="Clear all user reservations")
+    parser = argparse.ArgumentParser(
+        description="This script automates creation, removing and clearing user profiles."
+    )
+    parser.add_argument(
+        "--create",
+        type=int,
+        help="Number of users profiles to create",
+    )
+    parser.add_argument(
+        "--remove",
+        action="store_true",
+        help="Remove all user profiles",
+    )
+    parser.add_argument(
+        "--clear",
+        action="store_true",
+        help="Clear all user reservations",
+    )
 
     return parser.parse_args()
 
@@ -94,17 +108,23 @@ def main():
     os.makedirs(DAT_DIR_PATH, exist_ok=True)
 
     args = parse_args()
-    to_remove = args.remove
-    to_clear = args.clear
-    to_create = args.create
+    to_remove: bool = args.remove
+    to_clear: bool = args.clear
+    users_to_create: int = args.create
 
-    files_removed = remove_files(USERS_DIR_PATH)
-    print(f"{files_removed} files deleted")
-    for _ in range(10):
-        user = generate_user_profile()
-        write_user_profile(user, USERS_DIR_PATH)
-        dump_to_csv(user)
-    clear_user_profiles(USERS_DIR_PATH)
+    if to_remove:
+        files_removed = remove_files(USERS_DIR_PATH)
+        print(f"{files_removed} files deleted")
+
+    if to_clear:
+        clear_user_profiles(USERS_DIR_PATH)
+
+    if users_to_create:
+        for _ in range(users_to_create):
+            user = generate_user_profile()
+            write_user_profile(user, USERS_DIR_PATH)
+            dump_to_csv(user)
+        print(f"{users_to_create} user profiles have been created.")
 
 
 if __name__ == "__main__":
