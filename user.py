@@ -1,10 +1,10 @@
-#!/usr/bin/python3
-
-import pandas as pd
+import argparse
 import random
 import os
-#import sys
-import argparse
+
+import pandas as pd
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument('-rmall', type=str, default="n", help="remove all accounts")
 parser.add_argument('-add', type=int, default=0, help="add user files")
