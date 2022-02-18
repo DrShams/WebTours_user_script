@@ -22,22 +22,21 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def remove_files(dir_path: str) -> int:
+    filenames = [filename for filename in os.listdir(dir_path) if filename != "jojo"]
+
+    for filename in filenames:
+        filepath = os.path.join(dir_path, filename)
+        os.remove(filepath)
+
+    return len(filenames)
+
+
 usersremove_status = args.rmall #-rmall [y/n]
 users = args.add                #-add [num]
 clear_status = args.clear       #-clear  [y/n]
 
 
-
-def usersremoveall():
-    """Example of usage: py user.py -rmall [y]"""
-    filelist = [f for f in os.listdir(path_users)]
-    x = 0
-    for f in filelist:
-        if f != "jojo":#all but jojo ))
-            x += 1
-            path_user = os.path.join(path_users, f)
-            os.remove(path_user)
-    print(str(x) + " users has been deleted")
 
 #Clear all users from directory
 def usergen(lp):
