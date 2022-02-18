@@ -4,7 +4,6 @@ import random
 import os
 from string import ascii_letters
 
-import pandas as pd
 
 LINES_TO_KEEP_NUM = 4
 USERS_DIR_PATH = "users"
