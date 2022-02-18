@@ -91,21 +91,24 @@ def dump_to_csv(user: dict) -> None:
 
 
 def main():
-    usersremove_status = args.rmall #-rmall [y/n]
-    users = args.add                #-add [num]
-    clear_status = args.clear       #-clear  [y/n]
+    os.makedirs(USERS_DIR_PATH, exist_ok=True)
+    os.makedirs(DAT_DIR_PATH, exist_ok=True)
 
-    if users == 0 and clear_status != "y" and usersremove_status != "y":
-        print("Usage:\n\
-        py user.py -rmall [y] - (all users will be deleted) \n\
-        py user.py -add [number_of_users] - (previous users will be deleted) \n\
-        py user.py -clear [y] - to clear all reservations")
-    if usersremove_status == "y":
-        usersremoveall()
-    if users > 0:
-        usergen(users)
-    if clear_status == "y":
-        userclear()
+    # usersremove_status = args.rmall #-rmall [y/n]
+    # users = args.add                #-add [num]
+    # clear_status = args.clear       #-clear  [y/n]
+
+    # if users == 0 and clear_status != "y" and usersremove_status != "y":
+    #     print("Usage:\n\
+    #     py user.py -rmall [y] - (all users will be deleted) \n\
+    #     py user.py -add [number_of_users] - (previous users will be deleted) \n\
+    #     py user.py -clear [y] - to clear all reservations")
+    # if usersremove_status == "y":
+    #     usersremoveall()
+    # if users > 0:
+    #     usergen(users)
+    # if clear_status == "y":
+    #     userclear()
 
 if __name__ == "__main__":
     main()
