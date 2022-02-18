@@ -85,6 +85,8 @@ def clear_user_profiles(dir_path: str) -> None:
             file.writelines(lines_to_keep)
             file.writelines(";")
 
+    return len(filenames)
+
 
 def dump_to_csv(user: dict) -> None:
     csv_filename = os.path.join(DAT_DIR_PATH, CSV_FILENAME)
@@ -117,7 +119,8 @@ def main():
         print(f"{files_removed} files deleted")
 
     if to_clear:
-        clear_user_profiles(USERS_DIR_PATH)
+        profiles_cleared = clear_user_profiles(USERS_DIR_PATH)
+        print(f"{profiles_cleared} profiles cleared")
 
     if users_to_create:
         for _ in range(users_to_create):
