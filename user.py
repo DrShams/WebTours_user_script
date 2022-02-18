@@ -1,6 +1,7 @@
 import argparse
 import random
 import os
+from string import ascii_letters
 
 import pandas as pd
 
@@ -32,72 +33,18 @@ def remove_files(dir_path: str) -> int:
     return len(filenames)
 
 
-usersremove_status = args.rmall #-rmall [y/n]
-users = args.add                #-add [num]
-clear_status = args.clear       #-clear  [y/n]
+def generate_user_profile() -> dict:
+    return {
+        "login": f"{PREFIX_NAME}{random.randint(1000, 9999)}",
+        "first_name": f"Agent{random.randint(1, 9)}",
+        "last_name": f"Smith{random.randint(1, 9)}",
+        "address": f"Address {random.randint(10, 99)}",
+        "password": f"pwd{''.join(random.sample(ascii_letters, k=8))}",
+        "zip": f"0{random.randint(1, 9)}",
+        "cc": f"42760600{random.randint(1, 9)}",
+        "cc_expires": "08/21",
+    }
 
-
-
-#Clear all users from directory
-def usergen(lp):
-    """Example of usage: py user.py -add [number_of_users]"""
-
-    chars_numbers = '1234567890'#комбинация паролей
-    chars_login = 'abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'#комбинация логинов
-    #lp = int(sys.argv[1])
-    #lp = int(input('Кол-во логинов и паролей?'+ "\n"))#генерируем кол-во логин-паролей
-
-    login_list = list()
-    pass_list = list()
-    fname_list = list()
-    lname_list = list()
-    address_list = list()
-    zipcode_list = list()
-    expdate_list = list()#add !!"""
-    cc_list = list()
-    for x,n in enumerate(range(lp)):
-        #PWD-ZIPCODE-CC
-        password ='pwd'   #по дефолту
-        zipcode = '0'
-        cc = '42760600'
-        for i in range(8):  #длина логина или пароля + 8
-            password += random.choice(chars_numbers)
-            zipcode += random.choice(chars_numbers)
-            cc += random.choice(chars_numbers)
-        pass_list.append(password)
-        zipcode_list.append(zipcode)
-        cc_list.append(cc)
-        #LOGIN-FIRSTNAME-LASTNAME-ADDRESS
-        login = prefixname + str(x) #LOGIN
-        firstname = "Agent" + str(x)
-        lastname = "Smith" + str(x)
-        address = "Address " + str(x)
-        fname_list.append(firstname)
-        lname_list.append(lastname)
-        address_list.append(address)
-        login_list.append(login)
-        #
-        expdate_list.append("08/21")
-        """собираем тело файла для каждого юзера: save and close"""
-        #print(login,password)
-        block = password+"\n"+firstname+";"+lastname+"\n"+address+"\n"+zipcode+"\n;"
-        file = open(path_users + "\\" + login, 'w', encoding='utf-8')#\ - and \ !!!
-        file.write(block)
-        file.close()
-
-    #Создаем таблицу
-    data = {
-    "LOGIN": login_list,
-    "PWD": pass_list,
-    "FIRSTNAME": fname_list,
-    "LASTNAME": lname_list,
-    "ADDRESS": address_list,
-    "ZIPCODE": zipcode_list,
-    "CC": cc_list,
-    "EXPDATE": expdate_list}
-    df = pd.DataFrame(data)
-    print(df)
-    df.to_csv(path_dat,index=False)#синхронизация в .dat file
 
 def userclear():
     """Example of usage: py user.py -clear [y/n]"""
@@ -115,6 +62,10 @@ def userclear():
     print(str(x) + " accounts has been reset")
 
 def main():
+    usersremove_status = args.rmall #-rmall [y/n]
+    users = args.add                #-add [num]
+    clear_status = args.clear       #-clear  [y/n]
+
     if users == 0 and clear_status != "y" and usersremove_status != "y":
         print("Usage:\n\
         py user.py -rmall [y] - (all users will be deleted) \n\
