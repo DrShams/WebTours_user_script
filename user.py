@@ -6,12 +6,13 @@ from string import ascii_letters
 
 
 LINES_TO_KEEP_NUM = 4
-USERS_DIR_PATH = "users"
-DAT_DIR_PATH = "data"
+USERS_DIR_PATH = r"C:\Users\1\Desktop\Bell Integrator HighLoad_29_01\__Project WebTours\Web Tours 1.0\WebTours\cgi-bin\users"
+DAT_DIR_PATH = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210206_authonly\\"
 PREFIX_NAME = "Cuser"
-CSV_FILENAME = "dat"
-# path_users = r"C:\Users\1\Desktop\Bell Integrator HighLoad_29_01\__Project WebTours\Web Tours 1.0\WebTours\cgi-bin\users"  # путь к файлу с юзерами
-# path_dat = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210206_authonly\Users.dat"  # путь к файлу LoadRunner
+CSV_FILENAME = "Users.dat"
+
+#path_users = r"C:\Users\1\Desktop\Bell Integrator HighLoad_29_01\__Project WebTours\Web Tours 1.0\WebTours\cgi-bin\users"  # путь к файлу с юзерами
+#path_dat = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210206_authonly\Users.dat"  # путь к файлу LoadRunner
 
 
 def parse_args() -> argparse.Namespace:
@@ -87,6 +88,13 @@ def clear_user_profiles(dir_path: str) -> None:
 
     return len(filenames)
 
+def create_csv_with_headers():
+    csv_filename = os.path.join(DAT_DIR_PATH, CSV_FILENAME)
+    with open(csv_filename, "w") as csvfile:
+        headers_writer = csv.writer(csvfile, delimiter=",")
+        headers = ['LOGIN', 'PWD', 'FIRSTNAME','LASTNAME','ADDRESS','ZIPCODE','CC','EXPDATE']
+        #LOGIN,PWD,FIRSTNAME,LASTNAME,ADDRESS,ZIPCODE,CC,EXPDATE
+        headers_writer.writerow(headers)
 
 def dump_to_csv(user: dict) -> None:
     csv_filename = os.path.join(DAT_DIR_PATH, CSV_FILENAME)
@@ -103,7 +111,6 @@ def dump_to_csv(user: dict) -> None:
             user["cc_expires"],
         ]
         user_writer.writerow(user_profile)
-
 
 def main():
     os.makedirs(USERS_DIR_PATH, exist_ok=True)
@@ -123,6 +130,7 @@ def main():
         print(f"{profiles_cleared} profiles cleared")
 
     if users_to_create:
+        create_csv_with_headers()
         for _ in range(users_to_create):
             user = generate_user_profile()
             write_user_profile(user, USERS_DIR_PATH)
