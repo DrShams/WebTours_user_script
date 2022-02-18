@@ -16,9 +16,9 @@ CSV_FILENAME = "dat"
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("-rmall", default="n", help="remove all accounts")
-    parser.add_argument("-add", type=int, default=0, help="add user files")
-    parser.add_argument("-clear", default="n", help="clear all reservations")
+    parser.add_argument("--create", type=int, help="Number of users profiles to create")
+    parser.add_argument("--remove", default="n", help="Remove all user profiles")
+    parser.add_argument("--clear", default="n", help="Clear all user reservations")
 
     return parser.parse_args()
 
@@ -93,21 +93,19 @@ def main():
     os.makedirs(USERS_DIR_PATH, exist_ok=True)
     os.makedirs(DAT_DIR_PATH, exist_ok=True)
 
-    # usersremove_status = args.rmall #-rmall [y/n]
-    # users = args.add                #-add [num]
-    # clear_status = args.clear       #-clear  [y/n]
+    args = parse_args()
+    to_remove = args.remove
+    to_clear = args.clear
+    to_create = args.create
 
-    # if users == 0 and clear_status != "y" and usersremove_status != "y":
-    #     print("Usage:\n\
-    #     py user.py -rmall [y] - (all users will be deleted) \n\
-    #     py user.py -add [number_of_users] - (previous users will be deleted) \n\
-    #     py user.py -clear [y] - to clear all reservations")
-    # if usersremove_status == "y":
-    #     usersremoveall()
-    # if users > 0:
-    #     usergen(users)
-    # if clear_status == "y":
-    #     userclear()
+    files_removed = remove_files(USERS_DIR_PATH)
+    print(f"{files_removed} files deleted")
+    for _ in range(10):
+        user = generate_user_profile()
+        write_user_profile(user, USERS_DIR_PATH)
+        dump_to_csv(user)
+    clear_user_profiles(USERS_DIR_PATH)
+
 
 if __name__ == "__main__":
     main()
