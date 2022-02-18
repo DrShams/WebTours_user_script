@@ -4,6 +4,14 @@ import os
 
 import pandas as pd
 
+LINES_TO_KEEP_NUM = 4
+USERS_DIR_PATH = "users"
+DAT_DIR_PATH = "data"
+PREFIX_NAME = "Cuser"
+CSV_FILENAME = "dat"
+# path_users = r"C:\Users\1\Desktop\Bell Integrator HighLoad_29_01\__Project WebTours\Web Tours 1.0\WebTours\cgi-bin\users"  # путь к файлу с юзерами
+# path_dat = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210206_authonly\Users.dat"  # путь к файлу LoadRunner
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-rmall', type=str, default="n", help="remove all accounts")
@@ -16,18 +24,7 @@ usersremove_status = args.rmall #-rmall [y/n]
 users = args.add                #-add [num]
 clear_status = args.clear       #-clear  [y/n]
 
-#CONFIG
-LINES_TO_KEEP = 5           #сколько строк оставим в аккаунте после чистки
 
-#отредактировать путь
-path_users = r"C:\Users\1\Desktop\Bell Integrator HighLoad_29_01\__Project WebTours\Web Tours 1.0\WebTours\cgi-bin\users"#путь к файлу с юзерами
-#менять взависимости от кол-ва скриптов
-#path_dat = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210208\Users.dat"#путь к файлу LoadRunner
-#prefixname = "Auser" #2 -> 5
-#path_dat = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210206_search\Users.dat"#путь к файлу LoadRunner
-#prefixname = "Buser" # 4 -> 10
-path_dat = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210206_authonly\Users.dat"#путь к файлу LoadRunner
-prefixname = "Cuser" # 14 -> 35
 
 def usersremoveall():
     """Example of usage: py user.py -rmall [y]"""
