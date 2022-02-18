@@ -46,6 +46,19 @@ def generate_user_profile() -> dict:
     }
 
 
+def write_user_profile(user: dict, dirpath: str) -> None:
+    filepath = os.path.join(dirpath, user["login"])
+    with open(filepath, "w") as file:
+        user_fields = [
+            user["password"],
+            ";".join([user["first_name"], user["last_name"]]),
+            user["address"],
+            user["zip"],
+            ";",
+        ]
+        file.write("\n".join(user_fields))
+
+
 def userclear():
     """Example of usage: py user.py -clear [y/n]"""
     filelist = [f for f in os.listdir(path_users)]
