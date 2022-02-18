@@ -13,12 +13,14 @@ CSV_FILENAME = "dat"
 # path_dat = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210206_authonly\Users.dat"  # путь к файлу LoadRunner
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-rmall', type=str, default="n", help="remove all accounts")
-parser.add_argument('-add', type=int, default=0, help="add user files")
-parser.add_argument('-clear', type=str, default="n", help="clear all reservations")
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-rmall", default="n", help="remove all accounts")
+    parser.add_argument("-add", type=int, default=0, help="add user files")
+    parser.add_argument("-clear", default="n", help="clear all reservations")
 
-args = parser.parse_args()
+    return parser.parse_args()
+
 
 usersremove_status = args.rmall #-rmall [y/n]
 users = args.add                #-add [num]
