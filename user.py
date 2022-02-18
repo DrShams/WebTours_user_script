@@ -40,6 +40,8 @@ def parse_args() -> argparse.Namespace:
 
 def remove_files(dir_path: str) -> int:
     filenames = [filename for filename in os.listdir(dir_path) if filename != "jojo"]
+    
+    os.remove(DAT_DIR_PATH + CSV_FILENAME)
 
     for filename in filenames:
         filepath = os.path.join(dir_path, filename)
@@ -55,7 +57,7 @@ def generate_user_profile() -> dict:
         "last_name": f"Smith{random.randint(1, 9)}",
         "address": f"Address {random.randint(10, 99)}",
         "password": f"pwd{''.join(random.sample(ascii_letters, k=8))}",
-        "zip": f"0{random.randint(1, 9)}",
+        "zip": f"0{random.randint(10000,99999)}",
         "cc": f"42760600{random.randint(1, 9)}",
         "cc_expires": "08/21",
     }
@@ -90,7 +92,7 @@ def clear_user_profiles(dir_path: str) -> None:
 
 def create_csv_with_headers():
     csv_filename = os.path.join(DAT_DIR_PATH, CSV_FILENAME)
-    with open(csv_filename, "w") as csvfile:
+    with open(csv_filename, "w",newline='') as csvfile:
         headers_writer = csv.writer(csvfile, delimiter=",")
         headers = ['LOGIN', 'PWD', 'FIRSTNAME','LASTNAME','ADDRESS','ZIPCODE','CC','EXPDATE']
         #LOGIN,PWD,FIRSTNAME,LASTNAME,ADDRESS,ZIPCODE,CC,EXPDATE
@@ -98,7 +100,7 @@ def create_csv_with_headers():
 
 def dump_to_csv(user: dict) -> None:
     csv_filename = os.path.join(DAT_DIR_PATH, CSV_FILENAME)
-    with open(csv_filename, "a") as csvfile:
+    with open(csv_filename, "a",newline='') as csvfile:#w
         user_writer = csv.writer(csvfile, delimiter=",")
         user_profile = [
             user["login"],
