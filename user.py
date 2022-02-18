@@ -59,20 +59,18 @@ def write_user_profile(user: dict, dirpath: str) -> None:
         file.write("\n".join(user_fields))
 
 
-def userclear():
-    """Example of usage: py user.py -clear [y/n]"""
-    filelist = [f for f in os.listdir(path_users)]
-    x = 0
-    for f in filelist:
-        if f != "jojo":#all but jojo ))
-            x += 1
-            path_user = os.path.join(path_users, f)
-            with open(path_user, "r+") as file:
-                numlines = [file.readline() for _ in range(LINES_TO_KEEP)]
-                file.seek(0)
-                file.truncate()
-                file.writelines(numlines)
-    print(str(x) + " accounts has been reset")
+def clear_user_profiles(dir_path: str) -> None:
+    filenames = [filename for filename in os.listdir(dir_path) if filename != "jojo"]
+    for filename in filenames:
+        filepath = os.path.join(dir_path, filename)
+
+        with open(filepath, "r+") as file:
+            lines_to_keep = [file.readline() for _ in range(LINES_TO_KEEP_NUM)]
+            file.seek(0)
+            file.truncate()
+            file.writelines(lines_to_keep)
+            file.writelines(";")
+
 
 def main():
     usersremove_status = args.rmall #-rmall [y/n]
