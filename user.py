@@ -1,4 +1,5 @@
 import argparse
+import csv
 import random
 import os
 from string import ascii_letters
@@ -70,6 +71,23 @@ def clear_user_profiles(dir_path: str) -> None:
             file.truncate()
             file.writelines(lines_to_keep)
             file.writelines(";")
+
+
+def dump_to_csv(user: dict) -> None:
+    csv_filename = os.path.join(DAT_DIR_PATH, CSV_FILENAME)
+    with open(csv_filename, "a") as csvfile:
+        user_writer = csv.writer(csvfile, delimiter=",")
+        user_profile = [
+            user["login"],
+            user["password"],
+            user["first_name"],
+            user["last_name"],
+            user["address"],
+            user["zip"],
+            user["cc"],
+            user["cc_expires"],
+        ]
+        user_writer.writerow(user_profile)
 
 
 def main():
