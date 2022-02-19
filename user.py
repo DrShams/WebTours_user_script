@@ -11,10 +11,6 @@ DAT_DIR_PATH = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210206_authonly
 PREFIX_NAME = "Cuser"
 CSV_FILENAME = "Users.dat"
 
-#path_users = r"C:\Users\1\Desktop\Bell Integrator HighLoad_29_01\__Project WebTours\Web Tours 1.0\WebTours\cgi-bin\users"  # путь к файлу с юзерами
-#path_dat = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210206_authonly\Users.dat"  # путь к файлу LoadRunner
-
-
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="This script automates creation, removing and clearing user profiles."
@@ -40,7 +36,7 @@ def parse_args() -> argparse.Namespace:
 
 def remove_files(dir_path: str) -> int:
     filenames = [filename for filename in os.listdir(dir_path) if filename != "jojo"]
-    
+
     os.remove(DAT_DIR_PATH + CSV_FILENAME)
 
     for filename in filenames:
