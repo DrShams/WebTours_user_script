@@ -4,12 +4,22 @@ import random
 import os
 from string import ascii_letters
 
-
+#CONFIG
 LINES_TO_KEEP_NUM = 4
 USERS_DIR_PATH = r"C:\Users\1\Desktop\Bell Integrator HighLoad_29_01\__Project WebTours\Web Tours 1.0\WebTours\cgi-bin\users"
-DAT_DIR_PATH = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210206_authonly\\"
-PREFIX_NAME = "Cuser"
+
+#DAT_DIR_PATH = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210206_authonly\\"
+#DAT_DIR_PATH = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210206_search\\"
+DAT_DIR_PATH = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210208\\"
+PREFIX_NAME = "Fuser"
+
 CSV_FILENAME = "Users.dat"
+def create_csv_with_headers():
+    csv_filename = os.path.join(DAT_DIR_PATH, CSV_FILENAME)
+    with open(csv_filename, "w",newline='') as csvfile:
+        headers_writer = csv.writer(csvfile, delimiter=",")
+        headers = ['LOGIN', 'PWD', 'FIRSTNAME','LASTNAME','ADDRESS','ZIPCODE','CC','EXPDATE']
+        headers_writer.writerow(headers)
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -36,25 +46,22 @@ def parse_args() -> argparse.Namespace:
 
 def remove_files(dir_path: str) -> int:
     filenames = [filename for filename in os.listdir(dir_path) if filename != "jojo"]
-
     os.remove(DAT_DIR_PATH + CSV_FILENAME)
-
     for filename in filenames:
         filepath = os.path.join(dir_path, filename)
         os.remove(filepath)
-
     return len(filenames)
 
 
-def generate_user_profile() -> dict:
+def generate_user_profile(num) -> dict:
     return {
-        "login": f"{PREFIX_NAME}{random.randint(1000, 9999)}",
-        "first_name": f"Agent{random.randint(1, 9)}",
-        "last_name": f"Smith{random.randint(1, 9)}",
-        "address": f"Address {random.randint(10, 99)}",
+        "login": f"{PREFIX_NAME}{num}",
+        "first_name": f"Agent{num}",
+        "last_name": f"Smith{num}",
+        "address": f"Address {num}",
         "password": f"pwd{''.join(random.sample(ascii_letters, k=8))}",
         "zip": f"0{random.randint(10000,99999)}",
-        "cc": f"42760600{random.randint(1, 9)}",
+        "cc": f"42760600{random.randint(10000000, 99999999)}",
         "cc_expires": "08/21",
     }
 
@@ -86,14 +93,6 @@ def clear_user_profiles(dir_path: str) -> None:
 
     return len(filenames)
 
-def create_csv_with_headers():
-    csv_filename = os.path.join(DAT_DIR_PATH, CSV_FILENAME)
-    with open(csv_filename, "w",newline='') as csvfile:
-        headers_writer = csv.writer(csvfile, delimiter=",")
-        headers = ['LOGIN', 'PWD', 'FIRSTNAME','LASTNAME','ADDRESS','ZIPCODE','CC','EXPDATE']
-        #LOGIN,PWD,FIRSTNAME,LASTNAME,ADDRESS,ZIPCODE,CC,EXPDATE
-        headers_writer.writerow(headers)
-
 def dump_to_csv(user: dict) -> None:
     csv_filename = os.path.join(DAT_DIR_PATH, CSV_FILENAME)
     with open(csv_filename, "a",newline='') as csvfile:#w
@@ -111,15 +110,15 @@ def dump_to_csv(user: dict) -> None:
         user_writer.writerow(user_profile)
 
 def main():
-    os.makedirs(USERS_DIR_PATH, exist_ok=True)
+    os.makedirs(USERS_DIR_PATH, exist_ok=True)#создаем папки
     os.makedirs(DAT_DIR_PATH, exist_ok=True)
 
-    args = parse_args()
+    args = parse_args() #берем параметры с которыми мы вызвали скрипт
     to_remove: bool = args.remove
     to_clear: bool = args.clear
     users_to_create: int = args.create
 
-    if to_remove:
+    if to_remove:       #если py user.py --remove
         files_removed = remove_files(USERS_DIR_PATH)
         print(f"{files_removed} files deleted")
 
@@ -128,9 +127,9 @@ def main():
         print(f"{profiles_cleared} profiles cleared")
 
     if users_to_create:
-        create_csv_with_headers()
-        for _ in range(users_to_create):
-            user = generate_user_profile()
+        create_csv_with_headers()#добавить заголовки для .dat файла
+        for num in range(users_to_create):
+            user = generate_user_profile(num)
             write_user_profile(user, USERS_DIR_PATH)
             dump_to_csv(user)
         print(f"{users_to_create} user profiles have been created.")
