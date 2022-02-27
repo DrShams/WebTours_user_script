@@ -10,8 +10,10 @@ USERS_DIR_PATH = r"C:\Users\1\Desktop\Bell Integrator HighLoad_29_01\__Project W
 
 #DAT_DIR_PATH = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210206_authonly\\"
 #DAT_DIR_PATH = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210206_search\\"
-DAT_DIR_PATH = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210208\\"
-PREFIX_NAME = "Fuser"
+#DAT_DIR_PATH = r"C:\Users\1\Documents\VuGen\Scripts\Shamsiev_6_20210208\\"
+DAT_DIR_PATH = r"C:\Users\1\Desktop\Bell Integrator HighLoad_29_01\__Project WebTours\_scripts\_WebTours_JMeter\\"
+
+PREFIX_NAME = "FJuser"
 
 CSV_FILENAME = "Users.dat"
 def create_csv_with_headers():
